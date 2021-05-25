@@ -1,0 +1,10 @@
+set recolor                 "true"
+set continuous-hist-save    "true"
+set default-fg              '#ebdbb2'
+set default-bg              '#1d2021'
+set recolor-darkcolor       '#ebdbb2'
+set recolor-lightcolor      '#1d2021'
+set guioptions				''
+set scroll-page-aware       "true"
+set scroll-full-overlap     0.01
+set scroll-step             50
