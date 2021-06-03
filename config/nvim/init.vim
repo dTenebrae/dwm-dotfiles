@@ -13,17 +13,20 @@ let maplocalleader = "\<space>"
 " Plugins ------------------------------------------------------------
 " ----- Vim Plugged ----- "
 call plug#begin('~/.local/share/nvim/site/plugged')
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
+Plug 'srcery-colors/srcery-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'ap/vim-css-color'
 Plug 'easymotion/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdcommenter'
+Plug 'Yggdroot/indentLine'
 Plug 'machakann/vim-highlightedyank'
 Plug 'mechatroner/rainbow_csv'
 Plug 'elzr/vim-json'
 Plug 'rust-lang/rust.vim'
+Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
@@ -60,7 +63,10 @@ set shiftwidth=4 " for when <tab> is pressed at beginning of line
 " Colorscheme
 set termguicolors
 set background=dark
-colorscheme gruvbox
+"colorscheme gruvbox
+colorscheme srcery
+"correct color for yank highlighting
+highlight HighlightedyankRegion cterm=reverse gui=reverse
 
 " set font for neovide
 set guifont=SauceCodePro\ Nerd\ Font:h30

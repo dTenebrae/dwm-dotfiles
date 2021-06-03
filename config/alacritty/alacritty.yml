@@ -1,7 +1,7 @@
 # Font configuration (changes require restart)
 font:
   # The size to use.
-  size: 12
+  size: 13
   # The normal (roman) font face to use.
   normal:
     family: MesloLGS NF
@@ -53,3 +53,8 @@ colors:
     white:   '#ebdbb2'
 
 background_opacity: 0.97
+
+cursor:
+  style:
+    shape: Block
+    thickness: 0.5

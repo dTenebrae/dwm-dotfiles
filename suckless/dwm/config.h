@@ -14,11 +14,15 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+static const char col_blue[]        = "#458588";
 static const char col_yellow[]      = "#fe8019";
+static const char col_orange[]      = "#d65d0e";
+static const char col_green[]      = "#98971a";
+static const char col_brown[]      = "#4e3946";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_yellow  },
+	[SchemeSel]  = { col_gray4, col_blue,  col_orange },
 };
 
 /* tagging */
@@ -66,12 +70,13 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_blue, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 //static const char *chromecmd[]  = { "chromium", NULL };
 static const char *firefoxcmd[]  = { "firefox-developer-edition", NULL };
 static const char *pycharmcmd[]  = { "pycharm-pro", NULL };
 static const char *dmconf[]  = { "dmconf", NULL };
+static const char *dmenu_explore[]  = { "dmenu-explore", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -80,6 +85,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_c,      spawn,          {.v = firefoxcmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = pycharmcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = dmconf } },
+	{ MODKEY,                       XK_o,      spawn,          {.v = dmenu_explore } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
