@@ -14,7 +14,7 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
-static const char col_blue[]        = "#458588";
+static const char col_blue[]        = "#2C78BF";
 static const char col_yellow[]      = "#fe8019";
 static const char col_orange[]      = "#d65d0e";
 static const char col_green[]      = "#98971a";
@@ -41,6 +41,7 @@ static const Rule rules[] = {
 	{ "jetbrains-pycharm",         NULL,       NULL,       1 << 2,       1,             0,           -1 },
 	{ "TelegramDesktop",           NULL,       NULL,       1 << 6,       0,             0,           -1 },
 	{ "Zathura",                   NULL,       NULL,       1 << 7,       0,             0,           -1 },
+	{ "zoom",                      NULL,       NULL,       1 << 8,       0,             1,           -1 },
 	{ "kcharselect",               NULL,       NULL,       0,            0,             1,           -1 },
 	{ "neovide",                   NULL,       NULL,       0,            0,             0,           -1 },
 };
