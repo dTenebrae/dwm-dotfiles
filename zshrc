@@ -14,6 +14,7 @@ export ZSH="/home/tenebrae/.oh-my-zsh"
 #export GDK_SCALE=2
 #export GDK_DPI_SCALE=0.5
 #export QT_AUTO_SCREEN_SCALE_FACTOR=1
+#export QT_SCALE_FACTOR=2
 export VISUAL=nvim
 export EDITOR=nvim
 
@@ -126,10 +127,14 @@ source $ZSH/oh-my-zsh.sh
 # Aliases
 alias mirrorUpdate='sudo reflector --latest 250 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
 alias x='ranger'
+alias "c=xclip"
+alias "v=xclip -o"
 #alias l='ls -lh --group-directories-first'
 #alias la='ls -lah --group-directories-first'
 alias l='exa --group-directories-first -l -T -L 1'
 alias la='exa --group-directories-first -la -T -L 1'
+alias ll='exa --group-directories-first -l -T -L 3'
+alias lla='exa --group-directories-first -la -T -L 3'
 alias vim='nvim'
 alias :q='exit'
 alias :Q='exit'

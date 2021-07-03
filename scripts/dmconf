@@ -19,9 +19,6 @@
 declare -A options
 options[alacritty]="$HOME/.config/alacritty/alacritty.yml"
 options[bash]="$HOME/.bashrc"
-options[doom emacs config.el]="$HOME/.doom.d/config.el"
-options[doom emacs init.el]="$HOME/.doom.d/init.el"
-options[doom emacs packages.el]="$HOME/.doom.d/packages.el"
 options[kitty]="$HOME/.config/kitty/kitty.conf"
 options[neovim]="$HOME/.config/nvim/init.vim"
 options[picom]="$HOME/.config/picom/picom.conf"

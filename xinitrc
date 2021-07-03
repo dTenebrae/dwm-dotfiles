@@ -65,6 +65,7 @@ setxkbmap -model pc104 -layout us,ru -variant ,, -option grp:alt_shift_toggle
 # start compositor
 picom --config ~/.config/picom/picom.conf -b
 # set wallpaper
-feh --bg-scale ~/Pictures/wallpaper.png
+$HOME/scripts/pscircle.sh &
+#feh --bg-scale ~/Pictures/spacecraft.jpg
 # start dwm
 exec dwm

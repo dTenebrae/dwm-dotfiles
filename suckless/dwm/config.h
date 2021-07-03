@@ -39,6 +39,7 @@ static const Rule rules[] = {
 	{ "firefoxdeveloperedition",   NULL,       NULL,       1 << 1,       1,             0,           -1 },
 	{ "Chromium",                  NULL,       NULL,       1 << 4,       1,             0,           -1 },
 	{ "jetbrains-pycharm",         NULL,       NULL,       1 << 2,       1,             0,           -1 },
+	{ "Code - Insiders",           NULL,       NULL,       1 << 2,       0,             0,           -1 },
 	{ "TelegramDesktop",           NULL,       NULL,       1 << 6,       0,             0,           -1 },
 	{ "Zathura",                   NULL,       NULL,       1 << 7,       0,             0,           -1 },
 	{ "zoom",                      NULL,       NULL,       1 << 8,       0,             1,           -1 },

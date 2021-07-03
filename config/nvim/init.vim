@@ -13,22 +13,32 @@ let maplocalleader = "\<space>"
 " Plugins ------------------------------------------------------------
 " ----- Vim Plugged ----- "
 call plug#begin('~/.local/share/nvim/site/plugged')
-"Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 Plug 'srcery-colors/srcery-vim'
-Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'ap/vim-css-color'
+Plug 'scrooloose/nerdtree'
 Plug 'easymotion/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Yggdroot/indentLine'
 Plug 'machakann/vim-highlightedyank'
 Plug 'mechatroner/rainbow_csv'
+Plug 'kien/rainbow_parentheses.vim'
 Plug 'elzr/vim-json'
-Plug 'rust-lang/rust.vim'
-Plug 'sheerun/vim-polyglot'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
+Plug 'dense-analysis/ale' " Linter (not working yet)
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
+Plug 'JuliaEditorSupport/julia-vim' " Julia support
+Plug 'rust-lang/rust.vim'           " Rustlang support
+Plug 'pangloss/vim-javascript'      " JavaScript support
+Plug 'leafgarland/typescript-vim'   " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty'     " JS and JSX syntax
+Plug 'jparise/vim-graphql'          " GraphQL syntax
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+"Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 " General Settings ---------------------------------------------------
@@ -45,6 +55,13 @@ set clipboard=unnamed
 set noerrorbells
 set smartindent
 set cursorline
+
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+else
+    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
+endif
 
 "=============Search================================
 set incsearch           " search as characters are entered
@@ -63,8 +80,11 @@ set shiftwidth=4 " for when <tab> is pressed at beginning of line
 " Colorscheme
 set termguicolors
 set background=dark
+
 "colorscheme gruvbox
 colorscheme srcery
+
+
 "correct color for yank highlighting
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
@@ -72,6 +92,21 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 set guifont=SauceCodePro\ Nerd\ Font:h30
 " make neovide fullscreen again
 call rpcnotify(0, 'Gui', 'WindowMaximized', 1)
+
+" enable rainbow_parentheses
+"let g:srcery_inverse_match_paren
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+lua << EOF
+  require("todo-comments").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
 
 " Columns
 "set colorcolumn=80
@@ -81,9 +116,15 @@ call rpcnotify(0, 'Gui', 'WindowMaximized', 1)
 " Запуск питоновской программы по F9
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+
 " Shortcut to edit vimrc
 nnoremap <leader>ec :vsplit $MYVIMRC<cr>
 nnoremap <leader>rc :source $MYVIMRC<cr>
+" Shortcut for todo-comments quickfix
+nnoremap <leader>t :TodoQuickFix<cr>
+" Close buffer
+nnoremap <leader>q :bd<cr>
+
 
 " Naviage with guides
 nnoremap <leader><Space> <esc>/<++><cr>"_c4l
@@ -97,7 +138,8 @@ nnoremap <leader>s :setlocal spell! spelllang=en_us<cr>
 " Nerdtree on F3
 map <F3> :NERDTreeToggle<CR>
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
-" Open terminal in new pane
+
+" Open terminal in new panel
 "nnoremap <leader><cr> :sp<cr> :resize 10<cr> :term<cr> :set number!<cr> i
 
 " Global Abbreviations -----------------------------------------------
@@ -146,6 +188,13 @@ inoremap <silent><expr> <TAB>
     endfunction
 
     let g:coc_snippet_next = '<tab>'
+
+" Specify some linters (didn't done it myself, copied from some page)
+"let g:ale_linters = {
+      "\   'python': ['flake8', 'pylint'],
+      "\   'ruby': ['standardrb', 'rubocop'],
+      "\   'javascript': ['eslint'],
+      "\}
 
 " Insert mode mappings -----------------------------------------------
 inoremap <c-u> <esc>viwUi
@@ -246,6 +295,14 @@ augroup filetype_sh
 augroup END
 
 " Python file settings -----------------------------------------------
+" make self word a keyword in python
+"augroup python
+    "autocmd!
+    "autocmd FileType python
+                "\   syn keyword pythonSelf self
+                "\ | highlight def link pythonSelf Special
+"augroup end
+
 augroup filetype_python
     autocmd!
     autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
