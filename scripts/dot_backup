@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Copying dwm stuff..."
+rsync -av --exclude=".*" /usr/src/d* ~/projects/dwm-dotfiles/suckless/
+echo "done"
+echo "Copying config files"
+cp -r ~/.config/{alacritty,mc,nvim,picom,ranger,zathura} ~/projects/dwm-dotfiles/config/
+echo "done"
+echo "Copying scripts"
+cp -r ~/scripts ~/projects/dwm-dotfiles/
+echo "done"
+echo "Copying rc files"
+cp ~/.bashrc ~/projects/dwm-dotfiles/bashrc
+cp ~/.vimrc ~/projects/dwm-dotfiles/vimrc
+cp ~/.Xauthority ~/projects/dwm-dotfiles/Xauthority
+cp ~/.xbindkeysrc ~/projects/dwm-dotfiles/xbindkeysrc
+cp ~/.xinitrc ~/projects/dwm-dotfiles/xinitrc
+cp ~/.Xresources ~/projects/dwm-dotfiles/Xresources
+cp ~/.zshrc ~/projects/dwm-dotfiles/zshrc
+echo "done"

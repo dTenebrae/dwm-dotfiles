@@ -23,6 +23,8 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 #PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
 export PATH="$HOME/scripts:$PATH"
 
@@ -169,3 +171,9 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
   exec startx
 fi
 
+
+PATH="/home/tenebrae/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/tenebrae/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/tenebrae/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/tenebrae/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/tenebrae/perl5"; export PERL_MM_OPT;

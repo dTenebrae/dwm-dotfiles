@@ -44,6 +44,7 @@ static const Rule rules[] = {
 	{ "Zathura",                   NULL,       NULL,       1 << 7,       0,             0,           -1 },
 	{ "zoom",                      NULL,       NULL,       1 << 8,       0,             1,           -1 },
 	{ "kcharselect",               NULL,       NULL,       0,            0,             1,           -1 },
+	{ "feh",                       NULL,       NULL,       0,            0,             1,           -1 },
 	{ "neovide",                   NULL,       NULL,       0,            0,             0,           -1 },
 };
 

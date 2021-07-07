@@ -28,7 +28,7 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'elzr/vim-json'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'folke/todo-comments.nvim'
-Plug 'dense-analysis/ale' " Linter (not working yet)
+"Plug 'dense-analysis/ale' " Linter (not working yet)
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
 Plug 'JuliaEditorSupport/julia-vim' " Julia support
 Plug 'rust-lang/rust.vim'           " Rustlang support
@@ -190,11 +190,11 @@ inoremap <silent><expr> <TAB>
     let g:coc_snippet_next = '<tab>'
 
 " Specify some linters (didn't done it myself, copied from some page)
-"let g:ale_linters = {
-      "\   'python': ['flake8', 'pylint'],
-      "\   'ruby': ['standardrb', 'rubocop'],
-      "\   'javascript': ['eslint'],
-      "\}
+let g:ale_linters = {
+      \   'python': ['flake8', 'pylint'],
+      \   'ruby': ['standardrb', 'rubocop'],
+      \   'javascript': ['eslint'],
+      \}
 
 " Insert mode mappings -----------------------------------------------
 inoremap <c-u> <esc>viwUi
