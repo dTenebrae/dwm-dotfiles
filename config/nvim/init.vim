@@ -28,6 +28,7 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'elzr/vim-json'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'folke/todo-comments.nvim'
+Plug 'blackcauldron7/surround.nvim' " Put parenthesis or commas around words
 "Plug 'dense-analysis/ale' " Linter (not working yet)
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
 Plug 'JuliaEditorSupport/julia-vim' " Julia support
@@ -70,6 +71,7 @@ set ignorecase
 set smartcase
 
 let g:netrw_banner=0 " Disable banner in netrw
+let g:airline_powerline_fonts=1
 
 " Tab settings
 set expandtab " Expand tabs into spaces
@@ -89,7 +91,7 @@ colorscheme srcery
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
 " set font for neovide
-set guifont=SauceCodePro\ Nerd\ Font:h30
+"set guifont=SauceCodePro\ Nerd\ Font:h30
 " make neovide fullscreen again
 call rpcnotify(0, 'Gui', 'WindowMaximized', 1)
 
@@ -107,6 +109,9 @@ lua << EOF
     -- refer to the configuration section below
   }
 EOF
+
+" required by surround.vim
+lua require"surround".setup{}
 
 " Columns
 "set colorcolumn=80
@@ -133,7 +138,7 @@ nnoremap <leader><Space> <esc>/<++><cr>"_c4l
 nnoremap <leader>n :set relativenumber!<cr>
 
 " Toggle spell-check
-nnoremap <leader>s :setlocal spell! spelllang=en_us<cr>
+"nnoremap <leader>s :setlocal spell! spelllang=en_us<cr>
 
 " Nerdtree on F3
 map <F3> :NERDTreeToggle<CR>
@@ -166,6 +171,9 @@ nnoremap <leader>/ :nohlsearch<cr> :echo "Search cleared."<cr>
 "nnoremap <leader>* :%s/\<<c-r><c-w>\>//g<left><LEFT>
 "nnoremap <c-u> viwU
 
+" Для surround.vim после этой комбинации нажимаем требуемый знак: {"'
+" nnoremap <leader>s ysiw
+
 " Делаем так, что при выходе/записи большие и малые w, q читались одинаково
 nmap :W :w
 nmap :Q :q
@@ -190,11 +198,11 @@ inoremap <silent><expr> <TAB>
     let g:coc_snippet_next = '<tab>'
 
 " Specify some linters (didn't done it myself, copied from some page)
-let g:ale_linters = {
-      \   'python': ['flake8', 'pylint'],
-      \   'ruby': ['standardrb', 'rubocop'],
-      \   'javascript': ['eslint'],
-      \}
+"let g:ale_linters = {
+      "\   'python': ['flake8', 'pylint'],
+      "\   'ruby': ['standardrb', 'rubocop'],
+      "\   'javascript': ['eslint'],
+      "\}
 
 " Insert mode mappings -----------------------------------------------
 inoremap <c-u> <esc>viwUi
