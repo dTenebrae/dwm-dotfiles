@@ -90,9 +90,9 @@ colorscheme srcery
 "correct color for yank highlighting
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
-" set font for neovide
-"set guifont=SauceCodePro\ Nerd\ Font:h30
-" make neovide fullscreen again
+" set font for gui nvim
+set guifont=MesloLGS\ NF:h12
+" make gui nvim fullscreen again
 call rpcnotify(0, 'Gui', 'WindowMaximized', 1)
 
 " enable rainbow_parentheses

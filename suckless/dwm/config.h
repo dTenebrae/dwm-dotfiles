@@ -46,6 +46,7 @@ static const Rule rules[] = {
 	{ "kcharselect",               NULL,       NULL,       0,            0,             1,           -1 },
 	{ "feh",                       NULL,       NULL,       0,            0,             1,           -1 },
 	{ "neovide",                   NULL,       NULL,       0,            0,             0,           -1 },
+	{ "GNvim",                     NULL,       NULL,       0,            0,             1,           -1 },
 };
 
 /* layout(s) */
