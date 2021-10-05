@@ -30,7 +30,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'folke/todo-comments.nvim'
 Plug 'blackcauldron7/surround.nvim' " Put parenthesis or commas around words
 "Plug 'dense-analysis/ale' " Linter (not working yet)
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
+"Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
 Plug 'JuliaEditorSupport/julia-vim' " Julia support
 Plug 'rust-lang/rust.vim'           " Rustlang support
 Plug 'pangloss/vim-javascript'      " JavaScript support
@@ -114,8 +114,8 @@ EOF
 lua require"surround".setup{}
 
 " Columns
-"set colorcolumn=80
-"highlight ColorColumn ctermbg=darkgray
+set colorcolumn=120
+highlight ColorColumn ctermbg=darkgray
 
 " General Shortcuts --------------------------------------------------
 " Запуск питоновской программы по F9
@@ -304,12 +304,12 @@ augroup END
 
 " Python file settings -----------------------------------------------
 " make self word a keyword in python
-"augroup python
-    "autocmd!
-    "autocmd FileType python
-                "\   syn keyword pythonSelf self
-                "\ | highlight def link pythonSelf Special
-"augroup end
+augroup python
+    autocmd!
+    autocmd FileType python
+                \   syn keyword pythonSelf self
+                \ | highlight def link pythonSelf Special
+augroup end
 
 augroup filetype_python
     autocmd!
@@ -319,7 +319,7 @@ augroup filetype_python
     autocmd FileType python set tabstop=4
     autocmd FileType python set softtabstop=4
     autocmd FileType python set shiftwidth=4
-    autocmd FileType python set textwidth=79
+    autocmd FileType python set textwidth=120
     autocmd FileType python set expandtab
     autocmd FileType python set autoindent
     autocmd FileType python set shiftround

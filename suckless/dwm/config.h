@@ -26,7 +26,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
+static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -35,9 +35,10 @@ static const Rule rules[] = {
 	 */
 	/* class                     instance     title      tags mask   switchtotag    isfloating   monitor */
 	{ "Blueberry.py",              NULL,       NULL,       0,            0,             1,           -1 },
-	{ "Firefox",                   NULL,       NULL,       1 << 1,       1,             0,           -1 },
-	{ "firefoxdeveloperedition",   NULL,       NULL,       1 << 1,       1,             0,           -1 },
-	{ "Chromium",                  NULL,       NULL,       1 << 4,       1,             0,           -1 },
+	{ "Firefox",                   NULL,       NULL,       1 << 4,       1,             0,           -1 },
+	{ "firefoxdeveloperedition",   NULL,       NULL,       1 << 4,       1,             0,           -1 },
+	{ "Chromium",                  NULL,       NULL,       1 << 1,       1,             0,           -1 },
+	{ "Google-chrome",             NULL,       NULL,       1 << 1,       1,             0,           -1 },
 	{ "jetbrains-pycharm",         NULL,       NULL,       1 << 2,       1,             0,           -1 },
 	{ "Code - Insiders",           NULL,       NULL,       1 << 2,       0,             0,           -1 },
 	{ "TelegramDesktop",           NULL,       NULL,       1 << 6,       0,             0,           -1 },
@@ -76,9 +77,9 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_blue, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
-//static const char *chromecmd[]  = { "chromium", NULL };
-static const char *firefoxcmd[]  = { "firefox-developer-edition", NULL };
-static const char *pycharmcmd[]  = { "pycharm-pro", NULL };
+static const char *chromecmd[]  = { "google-chrome-stable", NULL };
+//static const char *firefoxcmd[]  = { "firefox-developer-edition", NULL };
+static const char *pycharmcmd[]  = { "pycharm", NULL };
 static const char *dmconf[]  = { "dmconf", NULL };
 static const char *dmenu_explore[]  = { "dmenu-explore", NULL };
 
@@ -86,7 +87,7 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_c,      spawn,          {.v = firefoxcmd } },
+	{ MODKEY,                       XK_c,      spawn,          {.v = chromecmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = pycharmcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = dmconf } },
 	{ MODKEY,                       XK_o,      spawn,          {.v = dmenu_explore } },

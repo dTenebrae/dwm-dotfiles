@@ -8,3 +8,5 @@
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 . "$HOME/.cargo/env"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

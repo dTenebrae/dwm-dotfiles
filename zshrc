@@ -20,6 +20,8 @@ export EDITOR=nvim
 
 # Fixing Pycharm issues in dwm (see https://wiki.archlinux.org/index.php/Dwm#Fixing_misbehaving_Java_applications)
 export _JAVA_AWT_WM_NONREPARENTING=1
+# turn off multithreading for numpy
+export MKL_NUM_THREADS=1
 
 #PATH
 export PATH="$HOME/.local/bin:$PATH"
@@ -27,6 +29,7 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
 export PATH="$HOME/scripts:$PATH"
+export PATH="$HOME/jetbrains/dataspell/bin:$PATH"
 
 # neovim as manpager
 export MANPAGER='nvim +Man!'
@@ -127,10 +130,10 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Aliases
-alias mirrorUpdate='sudo reflector --latest 250 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
+alias mirrorUpdate='sudo reflector --latest 50 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
+# kill app with most memory usage
+#alias fatburn="kill -9 `ps aux | awk '{print $2, $4, $11}' | sort -k2rn | head -n 1 | awk '{print $1}'`"
 alias x='ranger'
-alias "c=xclip"
-alias "v=xclip -o"
 #alias l='ls -lh --group-directories-first'
 #alias la='ls -lah --group-directories-first'
 alias l='exa --group-directories-first -l -T -L 1'
@@ -140,6 +143,9 @@ alias lla='exa --group-directories-first -la -T -L 3'
 alias vim='nvim'
 alias :q='exit'
 alias :Q='exit'
+alias s='dust -r'
+
+bindkey -s "^P" 'ipython^M'
 
 # alias from "Learn C the hard way"
 alias gdbs='gdb --batch --ex run  --ex bt --ex q --args'
@@ -150,21 +156,6 @@ alias gdbs='gdb --batch --ex run  --ex bt --ex q --args'
 HISTFILE=~/.zsh_history
 HISTSIZE=999999999
 SAVEHIST=$HISTSIZE
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/tenebrae/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/tenebrae/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/tenebrae/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/tenebrae/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 # Autostart X after successful login
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
@@ -177,3 +168,24 @@ PERL5LIB="/home/tenebrae/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5
 PERL_LOCAL_LIB_ROOT="/home/tenebrae/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/tenebrae/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/tenebrae/perl5"; export PERL_MM_OPT;
+
+eval "$(zoxide init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/tenebrae/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/tenebrae/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/tenebrae/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/tenebrae/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
