@@ -13,10 +13,12 @@ let maplocalleader = "\<space>"
 " Plugins ------------------------------------------------------------
 " ----- Vim Plugged ----- "
 call plug#begin('~/.local/share/nvim/site/plugged')
+" color themes and other ricing
 Plug 'morhetz/gruvbox'
 Plug 'srcery-colors/srcery-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'ap/vim-css-color'
+"
 Plug 'scrooloose/nerdtree'
 Plug 'easymotion/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
@@ -25,28 +27,35 @@ Plug 'Yggdroot/indentLine'
 Plug 'machakann/vim-highlightedyank'
 Plug 'mechatroner/rainbow_csv'
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'elzr/vim-json'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'folke/todo-comments.nvim'
 Plug 'blackcauldron7/surround.nvim' " Put parenthesis or commas around words
-"Plug 'dense-analysis/ale' " Linter (not working yet)
-"Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
-Plug 'JuliaEditorSupport/julia-vim' " Julia support
-Plug 'rust-lang/rust.vim'           " Rustlang support
-Plug 'pangloss/vim-javascript'      " JavaScript support
-Plug 'leafgarland/typescript-vim'   " TypeScript syntax
-Plug 'maxmellon/vim-jsx-pretty'     " JS and JSX syntax
-Plug 'jparise/vim-graphql'          " GraphQL syntax
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+"Plug 'JuliaEditorSupport/julia-vim' " Julia support
+"Plug 'rust-lang/rust.vim'           " Rustlang support
+"Plug 'pangloss/vim-javascript'      " JavaScript support
+"Plug 'leafgarland/typescript-vim'   " TypeScript syntax
+"Plug 'maxmellon/vim-jsx-pretty'     " JS and JSX syntax
+"Plug 'jparise/vim-graphql'          " GraphQL syntax
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+"Plug 'elzr/vim-json'
 "Plug 'sheerun/vim-polyglot'
+
+" lsp server for autocomplete and lynting
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+
 call plug#end()
 
 " General Settings ---------------------------------------------------
 set mouse=a " Activate mouse
 set number relativenumber " line numbers
 set linebreak " wrap lines on 'word' boundaries
-set scrolloff=3 " don't let cursor touch edge of viewport
+set scrolloff=7 " don't let cursor touch edge of viewport
 set splitbelow splitright " vertical splits use right half of screen
 set iskeyword+=- " treat dash separated words as one word object
 set inccommand=nosplit " interactive find and replace preview
@@ -124,7 +133,8 @@ autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellesca
 
 " Shortcut to edit vimrc
 nnoremap <leader>ec :vsplit $MYVIMRC<cr>
-nnoremap <leader>rc :source $MYVIMRC<cr>
+"nnoremap <leader>rc :source $MYVIMRC<cr>
+nnoremap <leader>rc :e $MYVIMRC<cr>
 " Shortcut for todo-comments quickfix
 nnoremap <leader>t :TodoQuickFix<cr>
 " Close buffer
@@ -183,19 +193,213 @@ nmap :Q :q
 "command! -nargs=0 Sw w !sudo tee % > /dev/null
 
 " TAB autocomplete
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ?
-      \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+"inoremap <silent><expr> <TAB>
+      "\ pumvisible() ? coc#_select_confirm() :
+      "\ coc#expandableOrJumpable() ?
+      "\ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      "\ <SID>check_back_space() ? "\<TAB>" :
+      "\ coc#refresh()
 
-    function! s:check_back_space() abort
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
+    "function! s:check_back_space() abort
+      "let col = col('.') - 1
+      "return !col || getline('.')[col - 1]  =~# '\s'
+    "endfunction
 
-    let g:coc_snippet_next = '<tab>'
+    "let g:coc_snippet_next = '<tab>'
+
+
+"==================================================================================================
+
+lua << EOF
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- luasnip setup
+local luasnip = require 'luasnip'
+
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  completion = {
+    autocomplete = false
+  },
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      elseif luasnip.expand_or_jumpable() then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+      elseif luasnip.jumpable(-1) then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}
+EOF
+
+
+
+
+lua << EOF
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+-- do not forget to install pyright with "npm install -g pyright" and rust-analyzer with pacman ...
+local servers = { 'pyright', 'rust_analyzer'}
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+EOF
+
+
+
+" Delete buffer while keeping window layout (don't close buffer's windows).
+" Version 2008-11-18 from http://vim.wikia.com/wiki/VimTip165
+if v:version < 700 || exists('loaded_bclose') || &cp
+  finish
+endif
+let loaded_bclose = 1
+if !exists('bclose_multiple')
+  let bclose_multiple = 1
+endif
+
+" Display an error message.
+function! s:Warn(msg)
+  echohl ErrorMsg
+  echomsg a:msg
+  echohl NONE
+endfunction
+
+" Command ':Bclose' executes ':bd' to delete buffer in current window.
+" The window will show the alternate buffer (Ctrl-^) if it exists,
+" or the previous buffer (:bp), or a blank buffer if no previous.
+" Command ':Bclose!' is the same, but executes ':bd!' (discard changes).
+" An optional argument can specify which buffer to close (name or number).
+function! s:Bclose(bang, buffer)
+  if empty(a:buffer)
+    let btarget = bufnr('%')
+  elseif a:buffer =~ '^\d\+$'
+    let btarget = bufnr(str2nr(a:buffer))
+  else
+    let btarget = bufnr(a:buffer)
+  endif
+  if btarget < 0
+    call s:Warn('No matching buffer for '.a:buffer)
+    return
+  endif
+  if empty(a:bang) && getbufvar(btarget, '&modified')
+    call s:Warn('No write since last change for buffer '.btarget.' (use :Bclose!)')
+    return
+  endif
+  " Numbers of windows that view target buffer which we will delete.
+  let wnums = filter(range(1, winnr('$')), 'winbufnr(v:val) == btarget')
+  if !g:bclose_multiple && len(wnums) > 1
+    call s:Warn('Buffer is in multiple windows (use ":let bclose_multiple=1")')
+    return
+  endif
+  let wcurrent = winnr()
+  for w in wnums
+    execute w.'wincmd w'
+    let prevbuf = bufnr('#')
+    if prevbuf > 0 && buflisted(prevbuf) && prevbuf != btarget
+      buffer #
+    else
+      bprevious
+    endif
+    if btarget == bufnr('%')
+      " Numbers of listed buffers which are not the target to be deleted.
+      let blisted = filter(range(1, bufnr('$')), 'buflisted(v:val) && v:val != btarget')
+      " Listed, not target, and not displayed.
+      let bhidden = filter(copy(blisted), 'bufwinnr(v:val) < 0')
+      " Take the first buffer, if any (could be more intelligent).
+      let bjump = (bhidden + blisted + [-1])[0]
+      if bjump > 0
+        execute 'buffer '.bjump
+      else
+        execute 'enew'.a:bang
+      endif
+    endif
+  endfor
+  execute 'bdelete'.a:bang.' '.btarget
+  execute wcurrent.'wincmd w'
+endfunction
+command! -bang -complete=buffer -nargs=? Bclose call <SID>Bclose(<q-bang>, <q-args>)
+nnoremap <silent> <Leader>bd :Bclose<CR>
+
+
+map gn :bn<cr>
+map gp :bp<cr>
+map gw :Bclose<cr>
+"==================================================================================================
+
 
 " Specify some linters (didn't done it myself, copied from some page)
 "let g:ale_linters = {
