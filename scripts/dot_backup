@@ -4,7 +4,7 @@ echo "=== Copying dwm stuff ==="
 rsync -av --exclude=".*" /usr/src/d* ~/projects/dotfiles/dwm-dotfiles/suckless/
 echo "========= done =========="
 echo "= Copying config files =="
-cp -r ~/.config/{alacritty,mc,nvim,picom,ranger,zathura} ~/projects/dotfiles/dwm-dotfiles/config/
+cp -r ~/.config/{alacritty,fish,mc,nvim,picom,ranger,zathura} ~/projects/dotfiles/dwm-dotfiles/config/
 echo "========= done =========="
 echo "==== Copying scripts ===="
 cp -r ~/scripts ~/projects/dotfiles/dwm-dotfiles/

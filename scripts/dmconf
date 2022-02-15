@@ -20,6 +20,7 @@
 declare -A options
 options[alacritty]="$HOME/.config/alacritty/alacritty.yml"
 options[bash]="$HOME/.bashrc"
+options[fish]="$HOME/.config/fish/config.fish"
 options[neovim]="$HOME/.config/nvim/init.vim"
 options[picom]="$HOME/.config/picom/picom.conf"
 options[vim]="$HOME/.vimrc"
