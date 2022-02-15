@@ -18,9 +18,10 @@ Plug 'morhetz/gruvbox'
 Plug 'srcery-colors/srcery-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'ap/vim-css-color'
-"
 Plug 'scrooloose/nerdtree'
 Plug 'easymotion/vim-easymotion'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Yggdroot/indentLine'
@@ -30,6 +31,7 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'folke/todo-comments.nvim'
 Plug 'blackcauldron7/surround.nvim' " Put parenthesis or commas around words
+Plug 'khaveesh/vim-fish-syntax'
 
 "Plug 'JuliaEditorSupport/julia-vim' " Julia support
 "Plug 'rust-lang/rust.vim'           " Rustlang support
@@ -39,7 +41,7 @@ Plug 'blackcauldron7/surround.nvim' " Put parenthesis or commas around words
 "Plug 'jparise/vim-graphql'          " GraphQL syntax
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-"Plug 'elzr/vim-json'
+Plug 'elzr/vim-json'
 "Plug 'sheerun/vim-polyglot'
 
 " lsp server for autocomplete and lynting
@@ -65,6 +67,7 @@ set clipboard=unnamed
 set noerrorbells
 set smartindent
 set cursorline
+set grepprg=rg\ --vimgrep\ --smart-case\ --follow " replace grep with ripgrep
 
 " Figure out the system Python for Neovim.
 if exists("$VIRTUAL_ENV")
@@ -72,7 +75,6 @@ if exists("$VIRTUAL_ENV")
 else
     let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
-
 "=============Search================================
 set incsearch           " search as characters are entered
 set hlsearch            " highlight matches
@@ -177,6 +179,19 @@ nnoremap <leader>\ :vsp<cr>
 nnoremap <leader>- :sp<cr>
 " Отменить выделение по поиску
 nnoremap <leader>/ :nohlsearch<cr> :echo "Search cleared."<cr>
+
+" FZF
+nnoremap <silent> <C-f> :Files ~<CR>
+nnoremap <silent> <C-a> :Ag<CR>
+nmap <leader><tab> <plug>(fzf-maps-n)
+
+if has("nvim")
+    " Escape inside a FZF terminal window should exit the terminal window
+    " rather than going into the terminal's normal mode.
+    autocmd FileType fzf tnoremap <buffer> <Esc> <Esc>
+endif
+
+
 
 "nnoremap <leader>* :%s/\<<c-r><c-w>\>//g<left><LEFT>
 "nnoremap <c-u> viwU
@@ -337,6 +352,8 @@ function! s:Warn(msg)
   echomsg a:msg
   echohl NONE
 endfunction
+
+let g:ackprg = 'ag --vimgrep'
 
 " Command ':Bclose' executes ':bd' to delete buffer in current window.
 " The window will show the alternate buffer (Ctrl-^) if it exists,
@@ -587,6 +604,16 @@ augroup filetype_markdown
 augroup END
 
 au! BufRead,BufNewFile *.json set filetype=json
+
+augroup json_autocmd
+  autocmd!
+  autocmd FileType json set autoindent
+  autocmd FileType json set formatoptions=tcq2l
+  autocmd FileType json set textwidth=78 shiftwidth=2
+  autocmd FileType json set softtabstop=2 tabstop=8
+  autocmd FileType json set expandtab
+  autocmd FileType json set foldmethod=syntax
+augroup END
 
 " Notes --------------------------------------------------------------
 " ^n for autocomple selections

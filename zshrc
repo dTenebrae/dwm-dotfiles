@@ -131,6 +131,7 @@ source $ZSH/oh-my-zsh.sh
 #
 # Aliases
 alias mirrorUpdate='sudo reflector --latest 50 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
+alias git-show-branches="git log --graph --all --format='%C(cyan) %p %Cred %h %C(white) %s %Cgreen(%cr)%C(cyan) <%an>%C(bold yellow)%d%Creset'"
 # kill app with most memory usage
 #alias fatburn="kill -9 `ps aux | awk '{print $2, $4, $11}' | sort -k2rn | head -n 1 | awk '{print $1}'`"
 alias x='ranger'
@@ -144,6 +145,9 @@ alias vim='nvim'
 alias :q='exit'
 alias :Q='exit'
 alias s='dust -r'
+alias mc='mc -u'
+alias big='expac -s -H M "%m %n"|sort -rhk 1 | head -n 20'
+alias top='btop'
 
 bindkey -s "^P" 'ipython^M'
 
@@ -189,3 +193,12 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# adding brew to PATH
+[ -d /home/linuxbrew/.linuxbrew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
+# Make ff using rg by default
+#if type rg &> /dev/null; then
+  #export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
+  #export FZF_DEFAULT_OPTS='-m --height 50% --border'
+#fi
+export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
